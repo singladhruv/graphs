@@ -1,0 +1,45 @@
+class Solution {
+public:
+int countgrp(int node,vector<int>&vis,vector<vector<int>>&adj)
+{
+    vis[node]=1;
+    int var=0;
+    for(auto it:adj[node])
+    {
+        if(!vis[it])
+        {
+       var+=countgrp(it,vis,adj)+1;
+        }
+    }
+    return var;
+
+}
+    long long countPairs(int n, vector<vector<int>>& edges) {
+        vector<vector<int>>adj(n);
+        for(auto it:edges)
+        {
+            int u=it[0];
+            int v=it[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        int grps=0;
+        vector<long long>grpsize;
+        vector<int>vis(n,0);
+        for(int i=0;i<n;i++)
+        {
+            if(!vis[i])
+            {
+                int ans=countgrp(i,vis,adj);
+                grpsize.push_back(ans+1);
+                grps++;
+            }
+        }
+       long long ans = 0, sumSoFar = 0;
+        for (long long size : grpsize) {
+            ans += sumSoFar * size; 
+            sumSoFar += size; 
+        }
+       return ans;
+    }
+};
